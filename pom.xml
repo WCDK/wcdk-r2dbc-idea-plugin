@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.wcdk.r2dbc</groupId>
+    <artifactId>wcdk-r2dbc-idea-plugin</artifactId>
+    <version>0.1.0</version>
+    <packaging>jar</packaging>
+
+    <name>WCDK R2DBC Support for IntelliJ IDEA</name>
+    <description>WCDK R2DBC XML存储库的导航和编辑器支持。
+        链接存储库命名空间、语句ID、结果类型和SQL属性
+        使用Java存储库和域类。</description>
+
+    <properties>
+        <maven.compiler.release>21</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <idea.platform.version>2024.3.6</idea.platform.version>
+        <idea.platform.repository>https://www.jetbrains.com/intellij-repository/releases</idea.platform.repository>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>jetbrains-releases</id>
+            <url>${idea.platform.repository}</url>
+        </repository>
+        <repository>
+            <id>jetbrains-overrides</id>
+            <url>https://www.jetbrains.com/intellij-dependencies</url>
+        </repository>
+    </repositories>
+
+    <!-- The IDEA distribution provides these classes at runtime. The ZIP is unpacked
+         into target and all platform/plugin JARs are used only as a compile classpath. -->
+    <dependencies>
+        <dependency>
+            <groupId>com.jetbrains.intellij.idea</groupId>
+            <artifactId>ideaIC</artifactId>
+            <version>2024.3.6</version>
+            <type>zip</type>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <directory>${project.basedir}/target</directory>
+        <finalName>wcdk-r2dbc-idea-plugin-${project.version}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <skipMain>true</skipMain>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <outputDirectory>${project.build.directory}/idea-sdk</outputDirectory>
+                    <artifactItems>
+                        <artifactItem>
+                            <groupId>com.jetbrains.intellij.idea</groupId>
+                            <artifactId>ideaIC</artifactId>
+                            <version>${idea.platform.version}</version>
+                            <type>zip</type>
+                        </artifactItem>
+                    </artifactItems>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>unpack-idea-sdk</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>compile-against-idea-sdk</id>
+                        <phase>compile</phase>
+                        <configuration>
+                            <target>
+                                <mkdir dir="${project.build.outputDirectory}"/>
+                                <javac srcdir="${project.build.sourceDirectory}"
+                                       destdir="${project.build.outputDirectory}"
+                                       source="${maven.compiler.release}"
+                                       target="${maven.compiler.release}"
+                                       encoding="${project.build.sourceEncoding}"
+                                       includeantruntime="false"
+                                       fork="true">
+                                    <classpath>
+                                        <pathelement location="${project.build.directory}/idea-sdk/lib/*"/>
+                                        <pathelement location="${project.build.directory}/idea-sdk/plugins/java/lib/*"/>
+                                        <pathelement location="${project.build.directory}/idea-sdk/plugins/xml/lib/*"/>
+                                    </classpath>
+                                </javac>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Plugin-Id>com.wcdk.r2dbc.idea</Plugin-Id>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.7.1</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assembly/plugin-distribution.xml</descriptor>
+                    </descriptors>
+                    <finalName>wcdk-r2dbc-idea-plugin-${project.version}</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>package-plugin-zip</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

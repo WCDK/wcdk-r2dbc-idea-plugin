@@ -1,0 +1,23 @@
+<idea-plugin>
+    <id>com.wcdk.r2dbc.idea</id>
+    <name>WCDK R2DBC Support</name>
+    <vendor email="support@wcdk.com" url="https://github.com/wcdk">WCDK</vendor>
+    <logo>icons/wcdk-logo.png</logo>
+    <description><![CDATA[
+            WCDK R2DBC XML存储库的导航和编辑器支持。
+            链接存储库命名空间、语句ID、结果类型和SQL属性
+            使用Java存储库和域类。
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.xml</depends>
+    <depends>com.intellij.modules.java</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <fileIconProvider implementation="com.wcdk.r2dbc.idea.WcdkFileIconProvider"/>
+        <psi.referenceContributor language="XML" implementation="com.wcdk.r2dbc.idea.reference.WcdkXmlReferenceContributor"/>
+        <codeInsight.lineMarkerProvider language="XML" implementationClass="com.wcdk.r2dbc.idea.marker.WcdkLineMarkerProvider"/>
+        <codeInsight.lineMarkerProvider language="JAVA" implementationClass="com.wcdk.r2dbc.idea.marker.WcdkLineMarkerProvider"/>
+    </extensions>
+</idea-plugin>
