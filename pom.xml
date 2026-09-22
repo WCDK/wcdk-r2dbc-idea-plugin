@@ -10,9 +10,7 @@
     <packaging>jar</packaging>
 
     <name>WCDK R2DBC Support for IntelliJ IDEA</name>
-    <description>WCDK R2DBC XML存储库的导航和编辑器支持。
-        链接存储库命名空间、语句ID、结果类型和SQL属性
-        使用Java存储库和域类。</description>
+    <description>Navigation and editor support for WCDK R2DBC XML repositories.</description>
 
     <properties>
         <maven.compiler.release>21</maven.compiler.release>

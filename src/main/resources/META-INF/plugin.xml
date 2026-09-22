@@ -1,13 +1,17 @@
 <idea-plugin>
     <id>com.wcdk.r2dbc.idea</id>
     <name>WCDK R2DBC Support</name>
+    <version>0.1.0</version>
     <vendor email="support@wcdk.com" url="https://github.com/wcdk">WCDK</vendor>
     <logo>icons/wcdk-logo.png</logo>
     <description><![CDATA[
-            WCDK R2DBC XML存储库的导航和编辑器支持。
-            链接存储库命名空间、语句ID、结果类型和SQL属性
-            使用Java存储库和域类。
+        WCDK-R2DBC 辅助插件
+        WCDK R2DBC Support provides navigation and editor assistance for WCDK R2DBC XML repositories.
+        It links repository namespaces, statement IDs, result types, and SQL properties to their related
+        Java repository and domain classes.
     ]]></description>
+
+    <idea-version since-build="243"/>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>
