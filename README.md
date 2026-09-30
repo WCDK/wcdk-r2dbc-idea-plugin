@@ -11,7 +11,7 @@ This plugin adds navigation support between WCDK R2DBC repository XML files and 
 - `resultMap="UserMap"` (including a qualified `Repository.UserMap`) jumps to the matching `<resultMap id="UserMap">` declaration.
 - `#{parameter}` and `:parameter` references jump to repository method parameters or entity properties when they can be resolved.
 - WCDK logo gutter markers are shown beside recognized XML references and Java repository classes/methods, including `parameterType` and `resultMap` references.
-- Clicking the gutter marker beside a repository class or method opens its associated XML file or statement, matching the Java/XML round-trip workflow provided by MyBatisX.
+- Clicking the gutter marker beside a repository class or method opens its associated XML file or statement, matching the Java/XML 
 - The full WCDK logo is packaged as a plugin resource, while the compact WCDK mark is used in the 16px editor gutter.
 
 ## Supported XML shape
